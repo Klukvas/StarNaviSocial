@@ -1,0 +1,55 @@
+
+@base=http://127.0.0.1:8000
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0IiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTcwNjU2NDA2MH0.pA_mIK8_DZTgpYujG7nL11A4duaHG8OFk9vYO1xoEzo
+
+### register new customer
+POST {{base}}/auth/signup
+Content-Type: application/json
+
+{
+  "firstname": "string",
+  "lastname": "string",
+  "email": "{{$guid}}@example.com",
+  "phoneNum": "{{$guid}}",
+  "birthday": "2010-01-25",
+  "username": "{{$guid}}",
+  "password": "asfnksadfnkasf",
+  "password_confirmation": "asfnksadfnkasf",
+  "subscribed_for_newsletter": false
+}
+
+### login
+POST {{base}}/auth/signin
+Content-Type: application/json
+
+{
+  "email": "b554305f-c7fd-4212-8fa1-0a8fbfc0bfd1@example.com",
+  "password": "asfnksadfnkasf"
+}
+
+
+### post create
+POST {{base}}/post/create
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "string",
+  "description": "string"
+}
+
+### post like
+POST {{base}}/post/1/like
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### post dislike
+POST {{base}}/post/1/dislike
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### get activity by user
+GET {{base}}/user_info/activity
+Content-Type: application/json
+Authorization: Bearer {{token}}
