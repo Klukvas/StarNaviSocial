@@ -1,12 +1,12 @@
 from datetime import date, datetime
 from typing import Optional
 
-from pydantic import BaseModel, EmailStr, field_validator
 from dateutil.relativedelta import relativedelta
-from src.schemas.common import Token
+from pydantic import BaseModel, EmailStr, field_validator
 from pydantic_core.core_schema import FieldValidationInfo
 
 from src.config import settings
+from src.schemas.common import Token
 
 
 class UserBase(BaseModel):

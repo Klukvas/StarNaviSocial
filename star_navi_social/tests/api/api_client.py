@@ -1,8 +1,11 @@
-from main import app
-from fastapi.testclient import TestClient
-from typing import Union, Optional
+from typing import Optional, Union
 from uuid import uuid4
-from result import Ok, Error
+
+from fastapi.testclient import TestClient
+from result import Error, Ok
+
+from main import app
+
 
 class ApiClient:
     

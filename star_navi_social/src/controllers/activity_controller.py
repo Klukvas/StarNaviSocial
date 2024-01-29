@@ -1,10 +1,9 @@
 from sqlalchemy import func
-from src.models import PostInteractionsModel
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.models import UserModel, UserActivity
 from sqlalchemy.sql import select
-from src.schemas import UserActivityBase
 
+from src.models import PostInteractionsModel, UserActivity, UserModel
+from src.schemas import UserActivityBase
 
 
 class ActivityController:

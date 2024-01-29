@@ -1,5 +1,6 @@
-from api_client import ApiClient
 import pytest
+from api_client import ApiClient
+
 
 @pytest.mark.registration
 class TestRegistration:

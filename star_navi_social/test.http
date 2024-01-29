@@ -1,6 +1,6 @@
 
 @base=http://127.0.0.1:8000
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0IiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTcwNjU2NDA2MH0.pA_mIK8_DZTgpYujG7nL11A4duaHG8OFk9vYO1xoEzo
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1IiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTcwNjU2NzI2Mn0.abytDqeKKQfM7W8hSPzpTgHFUWRokFOvwKaghaky2EY
 
 ### register new customer
 POST {{base}}/auth/signup

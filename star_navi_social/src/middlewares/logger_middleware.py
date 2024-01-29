@@ -1,4 +1,5 @@
 from starlette.middleware.base import BaseHTTPMiddleware
+
 from ..utils.logger import logger
 
 

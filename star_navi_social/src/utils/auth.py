@@ -12,7 +12,6 @@ from src.models.databaseClient import get_async_session
 from src.schemas import Token, TokenTypeEnum
 
 
-
 class Auth:
 
     @staticmethod

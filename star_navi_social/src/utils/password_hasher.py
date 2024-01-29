@@ -1,5 +1,6 @@
 from src.config import settings
 
+
 class PasswordHasher:
     @staticmethod
     def get_password_hash(password):

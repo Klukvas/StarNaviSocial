@@ -1,6 +1,9 @@
 from enum import Enum
-from pydantic import BaseModel
 from typing import Union
+
+from pydantic import BaseModel
+
+
 class HttpError(BaseModel):
     field: str
     error_description: str

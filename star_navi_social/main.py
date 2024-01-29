@@ -1,22 +1,24 @@
-from contextlib import asynccontextmanager
-from src.utils.exception import ExceptionError
-from fastapi import Request, status, FastAPI
-from fastapi.responses import JSONResponse
-from src.schemas.common import StatusCodeErrorResponse, HttpError
-from src.routes import auth_router, post_router, analytics_router, activity_router
-from src.models import databaseClient
 import datetime
+from contextlib import asynccontextmanager
+from datetime import datetime
+
+import uvicorn
+from fastapi import Depends, FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
-from src.middlewares import LogMiddleware
-from fastapi import Depends, Request
+from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.models import UserModel, get_async_session, UserActivity
-from src.utils.auth import Auth
-from datetime import datetime
-from src.schemas import UserActivityBase
 
+from src.middlewares import LogMiddleware
+from src.models import (UserActivity, UserModel, databaseClient,
+                        get_async_session)
+from src.routes import (activity_router, analytics_router, auth_router,
+                        post_router)
+from src.schemas import UserActivityBase
+from src.schemas.common import HttpError, StatusCodeErrorResponse
+from src.utils.auth import Auth
+from src.utils.exception import ExceptionError
+from src.config import settings
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -78,4 +80,5 @@ def validation_exception_handler(request: Request, ex: RequestValidationError) -
     )
 
 if __name__ == "__main__":
+    breakpoint()
     uvicorn.run(app, host="0.0.0.0", port=8000)

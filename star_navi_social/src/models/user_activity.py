@@ -1,19 +1,15 @@
 from datetime import datetime
 from typing import List
 
-from sqlalchemy import DateTime, ForeignKey, Text
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy.sql import func
+from sqlalchemy import DateTime, ForeignKey, Text, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.schemas.post_schema import PostBase
-from .databaseClient import Base
-from sqlalchemy import select, update
-from datetime import datetime
-from sqlalchemy import ForeignKey, select, update
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, Session
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import Mapped, Session, mapped_column, relationship
+from sqlalchemy.sql import func
+
 from src.schemas import UserActivityBase
+from src.schemas.post_schema import PostBase
+
 from .databaseClient import Base
 
 

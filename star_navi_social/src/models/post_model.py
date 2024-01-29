@@ -1,13 +1,14 @@
 from datetime import datetime
 from typing import List
 
-from sqlalchemy import DateTime, ForeignKey, Text
+from sqlalchemy import DateTime, ForeignKey, Text, select, update
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
-from sqlalchemy.ext.asyncio import AsyncSession
+
 from src.schemas.post_schema import PostBase
+
 from .databaseClient import Base
-from sqlalchemy import select, update
 from .user_model import UserModel
 
 

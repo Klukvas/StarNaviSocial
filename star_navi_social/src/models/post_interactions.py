@@ -1,13 +1,13 @@
 from datetime import date
 
-from sqlalchemy import Date, ForeignKey, Text
+from sqlalchemy import Date, ForeignKey, Text, delete, select, update
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
 from .databaseClient import Base
 from .user_model import UserModel
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update, delete
+
 
 class PostInteractionsModel(Base):
     __tablename__ = "PostInteractions"

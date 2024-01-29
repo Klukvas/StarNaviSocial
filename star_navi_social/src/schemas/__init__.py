@@ -1,5 +1,7 @@
-from .common import Authorize, StatusCodeErrorResponse, Token, TokenTypeEnum, HttpError, MessageResponse
-from .post_schema import PostBase, PostDb
-from .user_schema import UserCreateBase, UserCreateRequest, UserCreateResponse, UserBase
 from .analytics import LikesAnalyticResponse
-from .user_activity import UserActivityInDb, UserActivityBase
+from .common import (Authorize, HttpError, MessageResponse,
+                     StatusCodeErrorResponse, Token, TokenTypeEnum)
+from .post_schema import PostBase, PostDb
+from .user_activity import UserActivityBase, UserActivityInDb
+from .user_schema import (UserBase, UserCreateBase, UserCreateRequest,
+                          UserCreateResponse)

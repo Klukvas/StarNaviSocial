@@ -1,4 +1,4 @@
-from .post_controller import PostController
+from .activity_controller import ActivityController
 from .analytics_controller import AnalyticsController
 from .auth_controller import AuthController
-from .activity_controller import ActivityController
+from .post_controller import PostController

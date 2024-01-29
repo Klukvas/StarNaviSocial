@@ -1,23 +1,18 @@
 from asyncio import current_task
+from contextlib import asynccontextmanager
+
 import asyncpg
-from sqlalchemy.ext.asyncio import (
-    AsyncSession,
-    async_scoped_session,
-    async_sessionmaker,
-    create_async_engine,
-)
+from sqlalchemy.ext.asyncio import (AsyncSession, async_scoped_session,
+                                    async_sessionmaker, create_async_engine)
+from sqlalchemy.orm import declarative_base
 # from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.pool import AsyncAdaptedQueuePool
-from sqlalchemy.orm import declarative_base
-from src.env import Env
-from contextlib import asynccontextmanager
+from src.config import settings
 
 Base = declarative_base()
 
-env = Env()
-
 engine = create_async_engine(
-    env.db_url,
+    settings.db_url(),
     future=True,
     poolclass=AsyncAdaptedQueuePool,
     pool_reset_on_return=False,
@@ -32,15 +27,15 @@ session = async_scoped_session(async_session_maker, scopefunc=current_task)
 async def create_database_if_not_exist(default_db: str = "postgres") -> None:
     try:
         await asyncpg.connect(
-            user=env.pg_user, database=env.pg_db_name, password=env.pg_password
+            user=settings.PG_USER, database=settings.PG_DB_NAME, password=settings.PG_PASSWORD
         )
     except asyncpg.exceptions.InvalidCatalogNameError:
         # Database does not exist, create it.
         sys_conn = await asyncpg.connect(
-            database=default_db, user=env.pg_user, password=env.pg_password
+            database=default_db, user=settings.PG_USER, password=settings.PG_PASSWORD
         )
         await sys_conn.execute(
-            f'CREATE DATABASE "{env.pg_db_name}" OWNER "{env.pg_user}"'
+            f'CREATE DATABASE "{settings.PG_DB_NAME}" OWNER "{settings.PG_USER}"'
         )
         await sys_conn.close()
 

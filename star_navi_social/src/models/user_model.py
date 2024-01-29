@@ -1,12 +1,15 @@
 from datetime import date
 from typing import List
+
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .databaseClient import Base
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 from src.schemas import UserCreateRequest
+
+from .databaseClient import Base
 from .user_activity import UserActivity
+
 
 class UserModel(Base):
     __tablename__ = "User"

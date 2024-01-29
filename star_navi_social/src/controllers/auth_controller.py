@@ -1,11 +1,12 @@
-from src.schemas import UserCreateRequest, UserCreateResponse, UserCreateBase, UserBase, Authorize
-from sqlalchemy.ext.asyncio import AsyncSession
-from src.models import UserModel
-from src.utils.exception import ExceptionError
 from fastapi import status
-from src.utils.auth import Auth
-from src.utils.password_hasher import PasswordHasher
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.models import UserModel
+from src.schemas import (Authorize, UserBase, UserCreateBase,
+                         UserCreateRequest, UserCreateResponse)
+from src.utils.auth import Auth
+from src.utils.exception import ExceptionError
+from src.utils.password_hasher import PasswordHasher
 
 
 class AuthController:

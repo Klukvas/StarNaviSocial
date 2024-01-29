@@ -1,10 +1,9 @@
 from sqlalchemy import func
-from src.models import PostInteractionsModel
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.models import UserModel
 from sqlalchemy.sql import select
-from src.schemas import LikesAnalyticResponse
 
+from src.models import PostInteractionsModel, UserModel
+from src.schemas import LikesAnalyticResponse
 
 
 class AnalyticsController:

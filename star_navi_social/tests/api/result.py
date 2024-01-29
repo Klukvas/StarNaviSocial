@@ -1,5 +1,6 @@
 from typing import Any, Union
 
+
 class Result:
     def __init__(
         self,

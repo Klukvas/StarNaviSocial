@@ -2,6 +2,7 @@ import json
 import logging
 from logging import Formatter
 
+
 class JsonFormatter(Formatter):
     def __init__(self):
         super(JsonFormatter, self).__init__()

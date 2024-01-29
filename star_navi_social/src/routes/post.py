@@ -1,12 +1,11 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 import src.schemas.post_schema as PostSchemas
-from src.models import UserModel, get_async_session
-from fastapi import status
-from src.schemas import StatusCodeErrorResponse, MessageResponse
-from src.utils import Auth, track_requests
 from src.controllers import PostController
+from src.models import UserModel, get_async_session
+from src.schemas import MessageResponse, StatusCodeErrorResponse
+from src.utils import Auth, track_requests
 
 post_router = APIRouter(prefix="/post")
 

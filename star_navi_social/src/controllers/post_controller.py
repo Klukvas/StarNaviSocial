@@ -1,12 +1,11 @@
-from src.models import UserModel
-
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.models import PostModel
-from src.schemas.post_schema import PostBase, PostDb
-from src.models import PostInteractionsModel
+
+from src.models import PostInteractionsModel, PostModel, UserModel
 from src.schemas import MessageResponse
+from src.schemas.post_schema import PostBase, PostDb
 from src.utils.exception import ExceptionError
-        
+
+
 class PostController:
 
     @staticmethod

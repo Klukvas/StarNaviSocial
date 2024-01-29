@@ -1,11 +1,12 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
+
 import src.schemas.user_schema as UserSchemas
+from src.controllers import AuthController
 from src.models import get_async_session
 from src.schemas import Authorize, StatusCodeErrorResponse, UserCreateResponse
-from fastapi import status
-from src.controllers import AuthController
 from src.utils import track_sign_in
+
 auth_router = APIRouter(prefix="/auth")
 
 

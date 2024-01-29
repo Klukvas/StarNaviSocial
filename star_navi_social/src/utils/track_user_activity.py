@@ -1,11 +1,12 @@
 import functools
-from src.models import UserActivity, UserModel
-from sqlalchemy.ext.asyncio import AsyncSession
-from src.schemas import UserActivityBase
 from datetime import datetime
 from typing import Optional
-from src.schemas import Authorize
-from src.models import UserModel
+
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from src.models import UserActivity, UserModel
+from src.schemas import Authorize, UserActivityBase
+
 
 async def sing_in_activity():
     pass
