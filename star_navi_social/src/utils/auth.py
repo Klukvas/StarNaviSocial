@@ -10,7 +10,7 @@ from src.config import settings
 from src.models import UserModel
 from src.models.databaseClient import get_async_session
 from src.schemas import Token, TokenTypeEnum
-
+from fastapi import Security
 
 class Auth:
 
@@ -65,7 +65,8 @@ class Auth:
 
     @staticmethod
     async def get_user_by_token(
-        token: Annotated[str, Depends(settings.oauth2_scheme)],
+        # token: Annotated[str, Depends(settings.oauth2_scheme)],
+        authorization_header: str = Security(settings.api_key_header),
         session: AsyncSession = Depends(get_async_session),
     ) -> UserModel:
         credentials_exception = HTTPException(
@@ -73,6 +74,14 @@ class Auth:
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
+        if authorization_header is None:
+            raise credentials_exception
+
+        if 'Bearer ' not in authorization_header:
+            raise credentials_exception
+
+        token = authorization_header.replace('Bearer ', '')
+
         try:
             payload = jwt.decode(
                 token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]

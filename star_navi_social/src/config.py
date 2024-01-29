@@ -2,6 +2,7 @@ from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field
+from fastapi.security.api_key import APIKeyHeader
 
 class Settings(BaseSettings):
     app_name: str = "StarNavi social"
@@ -22,7 +23,8 @@ class Settings(BaseSettings):
     MIN_AGE: int = 13
 
     # OAuth2PasswordBearer for token retrieval
-    oauth2_scheme: OAuth2PasswordBearer = OAuth2PasswordBearer(tokenUrl="auth/signin")
+    api_key_header: APIKeyHeader = APIKeyHeader(name='Authorization')
+
     # Password hashing
     pwd_context: CryptContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

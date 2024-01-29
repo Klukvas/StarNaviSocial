@@ -1,38 +1,35 @@
 import datetime
 from contextlib import asynccontextmanager
 from datetime import datetime
-
 import uvicorn
-from fastapi import Depends, FastAPI, Request, status
+from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from src.middlewares import LogMiddleware
-from src.models import (UserActivity, UserModel, databaseClient,
-                        get_async_session)
+from src.models import databaseClient
 from src.routes import (activity_router, analytics_router, auth_router,
                         post_router)
-from src.schemas import UserActivityBase
 from src.schemas.common import HttpError, StatusCodeErrorResponse
-from src.utils.auth import Auth
 from src.utils.exception import ExceptionError
-from src.config import settings
+from alembic.config import Config
+from alembic import command
+from datetime import datetime
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await databaseClient.create_database_if_not_exist()
-    await databaseClient.create_tables()
+    alembic_cfg = Config("alembic.ini")
+    command.upgrade(alembic_cfg, "head")
     yield
 
 
 app = FastAPI(lifespan=lifespan)
 
-app.include_router(post_router)
-app.include_router(auth_router)
-app.include_router(analytics_router)
-app.include_router(activity_router)
+app.include_router(post_router, tags=['post'])
+app.include_router(auth_router, tags=['auth'])
+app.include_router(analytics_router, tags=['analytics'])
+app.include_router(activity_router, tags=['activity'])
 
 app.add_middleware(LogMiddleware)
 
@@ -54,7 +51,7 @@ def exception_handler(request: Request, ex: ExceptionError) -> JSONResponse:
     res = JSONResponse(
         status_code=ex.status_code,
         content=StatusCodeErrorResponse(
-            timestamp=datetime.datetime.now().isoformat(),
+            timestamp=datetime.now().isoformat(),
             error_message=ex.message,
         ).model_dump()
     )
@@ -78,7 +75,3 @@ def validation_exception_handler(request: Request, ex: RequestValidationError) -
             errors=[HttpError(error_description=list(error.values())[0], field=list(error.keys())[0]) for error in parsed_errors]
         ).model_dump(),
     )
-
-if __name__ == "__main__":
-    breakpoint()
-    uvicorn.run(app, host="0.0.0.0", port=8000)

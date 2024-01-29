@@ -4,8 +4,7 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 
 from src.models.databaseClient import Base
-from src.models.post_model import PostModel
-from src.models.user_model import UserModel
+from src.models import UserActivity, UserModel, PostInteractionsModel, PostModel
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
