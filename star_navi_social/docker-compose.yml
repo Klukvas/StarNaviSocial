@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  pg-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: StarNaviSocial
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+       - "5433:5432"
+    volumes:
+    - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  
+  fastapi-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+       - "8080:8000"
+    depends_on:
+      pg-db:
+        condition: service_healthy
+    volumes:
+      - .:/starnavi_social/
+    environment:
+      RUN_DB_INIT: 0
+      PG_USER: postgres
+      PG_HOST: pg-db
+      PG_PORT: 5432
+      PG_PASSWORD: root
+      PG_DB_NAME: StarNaviSocial
+      SECRET_KEY: fd039aeb-2ccb-4eb3-a462-efe9faf14605
+      REFRESH_SECRET_KEY: 43d72d3d-5d57-4629-b2f8-d1d9584725e3
+volumes:
+  database:

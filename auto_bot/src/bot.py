@@ -55,7 +55,7 @@ class Bot:
 
 
     def start_emulate_user(self) -> None:
-        self.logger = setup_custom_logger(threading.current_thread().name)
+        self.logger = setup_custom_logger(str(threading.get_ident()))
         self.logger.info(f'Start to emulate user activity')
         self._register_customer()
         self.logger.debug(f'User registered')

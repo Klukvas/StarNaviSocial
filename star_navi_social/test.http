@@ -23,7 +23,7 @@ POST {{base}}/auth/signin
 Content-Type: application/json
 
 {
-  "email": "b554305f-c7fd-4212-8fa1-0a8fbfc0bfd1@example.com",
+  "email": "5f0b807d-aef6-486e-aeaf-15de78627640@example.com",
   "password": "asfnksadfnkasf"
 }
 
@@ -39,13 +39,13 @@ Authorization: Bearer {{token}}
 }
 
 ### post like
-POST {{base}}/post/1/like
+POST {{base}}/post/1912391/like
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 ### post dislike
-POST {{base}}/post/1/dislike
+POST {{base}}/post/1231323121/dislike
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

@@ -1,8 +1,8 @@
 service_settings:
   host: localhost
-  port: 8000
+  port: 8080
 
 bot_settings:
-  number_of_users: 2
-  max_posts_per_user: 10
-  max_interactions_per_user: 20
+  number_of_users: 40
+  max_posts_per_user: 20
+  max_interactions_per_user: 50

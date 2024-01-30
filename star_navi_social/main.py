@@ -1,7 +1,6 @@
 import datetime
 from contextlib import asynccontextmanager
 from datetime import datetime
-import uvicorn
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
@@ -15,12 +14,16 @@ from src.utils.exception import ExceptionError
 from alembic.config import Config
 from alembic import command
 from datetime import datetime
+from src.config import settings
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await databaseClient.create_database_if_not_exist()
-    alembic_cfg = Config("alembic.ini")
-    command.upgrade(alembic_cfg, "head")
+    if settings.RUN_DB_INIT:
+        await databaseClient.create_database_if_not_exist()
+        alembic_cfg = Config("alembic.ini")
+        alembic_cfg.set_main_option("sqlalchemy.url", settings.alembic_db_url())
+        command.upgrade(alembic_cfg, "head")
     yield
 
 
@@ -31,7 +34,7 @@ app.include_router(auth_router, tags=['auth'])
 app.include_router(analytics_router, tags=['analytics'])
 app.include_router(activity_router, tags=['activity'])
 
-app.add_middleware(LogMiddleware)
+# app.add_middleware(LogMiddleware)
 
 
 origins = [

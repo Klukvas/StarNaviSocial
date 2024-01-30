@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     PG_PASSWORD: str = Field()
     PG_DB_NAME: str = Field()
 
+    RUN_DB_INIT: int = Field()
+
+
     MIN_AGE: int = 13
 
     # OAuth2PasswordBearer for token retrieval
@@ -28,13 +31,21 @@ class Settings(BaseSettings):
     # Password hashing
     pwd_context: CryptContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-    DB_URL: str = 'postgresql+asyncpg://{username}:{password}@{host}:{port}/{db_name}'
-
     model_config = SettingsConfigDict(env_file=".env")
 
     def db_url(cls) -> str:
         return (
             "postgresql+asyncpg://{username}:{password}@{host}:{port}/{db_name}".format(
+                username=cls.PG_USER,
+                password=cls.PG_PASSWORD,
+                host=cls.PG_HOST,
+                port=cls.PG_PORT,
+                db_name=cls.PG_DB_NAME,
+            )
+        )
+    def alembic_db_url(cls) -> str:
+        return (
+            "postgresql://{username}:{password}@{host}:{port}/{db_name}".format(
                 username=cls.PG_USER,
                 password=cls.PG_PASSWORD,
                 host=cls.PG_HOST,
