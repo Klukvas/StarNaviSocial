@@ -10,16 +10,11 @@ class PostController:
 
     @staticmethod
     async def create_new_post(post: PostBase, session: AsyncSession, user: UserModel):
-        created_post = await PostModel.create(
-            post=post, author_id=user.id, session=session
-        )
+        created_post = await PostModel.create(post=post, author_id=user.id, session=session)
         return PostDb.from_orm(created_post).model_dump()
+
     @staticmethod
-    async def like_post(
-        post_id: int, 
-        user: UserModel, 
-        session: AsyncSession
-    ):
+    async def like_post(post_id: int, user: UserModel, session: AsyncSession):
         post = await PostModel.find_by_id(post_id, session)
         if post:
             prev_interacton = await PostInteractionsModel.getUserInteractionsByPost(
@@ -27,18 +22,14 @@ class PostController:
             )
             if prev_interacton:
                 if prev_interacton.is_like:  # means user wanna remove like
-                    await PostInteractionsModel.deleteIneraction(
-                        interaction_id=prev_interacton.id, session=session
-                    )
+                    await PostInteractionsModel.deleteIneraction(interaction_id=prev_interacton.id, session=session)
                     await PostModel.decrease_likes(post_id=post.id, session=session)
                     return MessageResponse(message="Post unliked successfully")
                 else:  # change from dislike to like
                     await PostInteractionsModel.updateState(
                         interaction_id=prev_interacton.id, new_state=True, session=session
                     )
-                    await PostModel.switch_count_interactions(
-                        post_id=post.id, incrementToLikes=True, session=session
-                    )
+                    await PostModel.switch_count_interactions(post_id=post.id, incrementToLikes=True, session=session)
                     return MessageResponse(message="Post liked successfully")
             else:
                 await PostInteractionsModel.insertNewInteraction(
@@ -50,11 +41,7 @@ class PostController:
             raise ExceptionError(status_code=404, message="Post not found")
 
     @staticmethod
-    async def dislike_post(
-        post_id: int,
-        user: UserModel,
-        session: AsyncSession
-    ):
+    async def dislike_post(post_id: int, user: UserModel, session: AsyncSession):
         # find the post
         post = await PostModel.find_by_id(post_id, session)
         if post:
@@ -68,15 +55,11 @@ class PostController:
                     await PostInteractionsModel.updateState(
                         interaction_id=prev_interacton.id, new_state=False, session=session
                     )
-                    await PostModel.switch_count_interactions(
-                        post_id=post.id, incrementToLikes=False, session=session
-                    )
+                    await PostModel.switch_count_interactions(post_id=post.id, incrementToLikes=False, session=session)
                     return MessageResponse(message="Post disliked successfully")
                 # if previous interaction is dislike -> remove it
                 else:
-                    await PostInteractionsModel.deleteIneraction(
-                        interaction_id=prev_interacton.id, session=session
-                    )
+                    await PostInteractionsModel.deleteIneraction(interaction_id=prev_interacton.id, session=session)
                     await PostModel.decrease_dislikes(post_id=post.id, session=session)
                     return MessageResponse(message="Post undisliked successfully")
             else:

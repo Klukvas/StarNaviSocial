@@ -12,6 +12,7 @@ class JsonFormatter(Formatter):
         json_record["message"] = record.getMessage()
         return json.dumps(json_record)
 
+
 logger = logging.root
 handler = logging.StreamHandler()
 handler.setFormatter(JsonFormatter())

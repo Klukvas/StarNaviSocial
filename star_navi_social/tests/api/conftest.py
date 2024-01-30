@@ -14,5 +14,5 @@ def user_data() -> dict:
         "username": str(uuid4()),
         "password": "asfnksadfnkasf",
         "password_confirmation": "asfnksadfnkasf",
-        "subscribed_for_newsletter": False
+        "subscribed_for_newsletter": False,
     }

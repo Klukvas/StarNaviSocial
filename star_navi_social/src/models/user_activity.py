@@ -1,11 +1,9 @@
 from datetime import datetime
 from typing import List
 
-from sqlalchemy import DateTime, ForeignKey, Text, select, update
+from sqlalchemy import ForeignKey, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Mapped, Session, mapped_column, relationship
-from sqlalchemy.sql import func
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.schemas import UserActivityBase
 from src.schemas.post_schema import PostBase
@@ -20,11 +18,10 @@ class UserActivity(Base):
 
     last_login: Mapped[datetime] = mapped_column(nullable=True)
     last_request: Mapped[datetime] = mapped_column(nullable=True)
-    user: Mapped["UserModel"] = relationship(back_populates="activity")
-
+    user: Mapped["UserModel"] = relationship(back_populates="activity")  # type: ignore
 
     @classmethod
-    async def get_by_user_id(cls, user_id: int, session: AsyncSession) -> 'UserActivity':
+    async def get_by_user_id(cls, user_id: int, session: AsyncSession) -> "UserActivity":
         stmt = select(cls).where(cls.user_id == user_id)
         result = await session.execute(stmt)
         return result.scalar()
@@ -40,8 +37,9 @@ class UserActivity(Base):
         stmt = update(cls).where(cls.user_id == user_id).values({"last_request": datetime.now()})
         await session.execute(stmt)
         await session.commit()
+
     @classmethod
-    async def create_activity(cls, user_id: int, session: AsyncSession, data:UserActivityBase ) -> 'UserActivity':
+    async def create_activity(cls, user_id: int, session: AsyncSession, data: UserActivityBase) -> "UserActivity":
         activity = cls(**data.model_dump())
         session.add(activity)
         await session.commit()

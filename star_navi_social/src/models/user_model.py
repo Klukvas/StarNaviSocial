@@ -25,10 +25,8 @@ class UserModel(Base):
     password: Mapped[str] = mapped_column(nullable=False)
     subscribed_for_newsletter: Mapped[bool] = mapped_column(default=False)
     activity: Mapped["UserActivity"] = relationship(back_populates="user")
-    posts: Mapped[List["PostModel"]] = relationship(back_populates="author")
-    post_interactions: Mapped[List["PostInteractionsModel"]] = relationship(
-        back_populates="user"
-    )
+    posts: Mapped[List["PostModel"]] = relationship(back_populates="author")  # type: ignore
+    post_interactions: Mapped[List["PostInteractionsModel"]] = relationship(back_populates="user")  # type: ignore
 
     def __repr__(self):
         return f"User: {self.username}"
@@ -39,14 +37,14 @@ class UserModel(Base):
         result = await session.execute(stmt)
         user = result.scalar()
         return user
-    
+
     @classmethod
     async def find_by_id(cls, user_id: int, session: AsyncSession):
         stmt = select(UserModel).where(UserModel.id == user_id)
         result = await session.execute(stmt)
         user = result.scalar()
         return user
-    
+
     @staticmethod
     async def create(user: UserCreateRequest, session: AsyncSession):
         new_user = UserModel(**user.model_dump())

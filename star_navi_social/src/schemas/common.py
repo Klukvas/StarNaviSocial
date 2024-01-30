@@ -1,5 +1,4 @@
 from enum import Enum
-from typing import Union
 
 from pydantic import BaseModel
 
@@ -7,6 +6,7 @@ from pydantic import BaseModel
 class HttpError(BaseModel):
     field: str
     error_description: str
+
 
 class StatusCodeErrorResponse(BaseModel):
     timestamp: str
@@ -27,6 +27,7 @@ class Token(BaseModel):
 class Authorize(BaseModel):
     refresh_token: Token
     access_token: Token
+
 
 class MessageResponse(BaseModel):
     message: str

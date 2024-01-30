@@ -1,11 +1,8 @@
 from datetime import date
 
-from dateutil.relativedelta import relativedelta
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-import src.schemas.user_schema as UserSchemas
-from src.config import settings
 from src.controllers import AnalyticsController
 from src.models import UserModel, get_async_session
 from src.schemas import LikesAnalyticResponse

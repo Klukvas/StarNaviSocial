@@ -17,10 +17,12 @@ auth_router = APIRouter(prefix="/auth")
     status_code=status.HTTP_201_CREATED,
     responses={
         status.HTTP_201_CREATED: {"model": UserSchemas.UserCreateResponse},
-        status.HTTP_422_UNPROCESSABLE_ENTITY: {"model": StatusCodeErrorResponse}
+        status.HTTP_422_UNPROCESSABLE_ENTITY: {"model": StatusCodeErrorResponse},
     },
 )
-async def signup(user: UserSchemas.UserCreateRequest, session: AsyncSession = Depends(get_async_session)) -> UserCreateResponse:
+async def signup(
+    user: UserSchemas.UserCreateRequest, session: AsyncSession = Depends(get_async_session)
+) -> UserCreateResponse:
     return await AuthController.signup(user=user, session=session)
 
 
@@ -33,7 +35,5 @@ async def signup(user: UserSchemas.UserCreateRequest, session: AsyncSession = De
     },
 )
 @track_sign_in()
-async def signin(
-    user: UserSchemas.UserBase, session: AsyncSession = Depends(get_async_session)
-) -> Authorize:
+async def signin(user: UserSchemas.UserBase, session: AsyncSession = Depends(get_async_session)) -> Authorize:
     return await AuthController.signin(user=user, session=session)

@@ -15,6 +15,6 @@ class PostDb(PostBase):
     author_id: int
     likes: int
     dislikes: int
-    class Config:
-        from_attributes=True
 
+    class Config:
+        from_attributes = True
